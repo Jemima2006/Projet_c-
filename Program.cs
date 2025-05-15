@@ -1,31 +1,23 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
-using OpenAI_API;
 
 class Program
 {
     static async Task Main()
     {
-        var api = new OpenAIAPI("TA_CLE_API"); 
-        string resultat = await openAiService.CorrigerTexteAsync(texte);
-        Console.WriteLine("Texte corrigé :" + resultat);
-
-
-        Console.WriteLine("Bonjour :) Que voulez-vous faire ?");
         Console.WriteLine("1 - Corriger un texte");
         Console.WriteLine("2 - Traduire un texte");
-        Console.WriteLine("3 - Générer un fichier HTML");
+        Console.WriteLine("3 - Générer du HTML");
 
-        int choix = int.Parse(Console.ReadLine());
+        string choix = Console.ReadLine();
 
-        if (choix == 1)
+        if (choix == "1")
         {
-            Console.WriteLine("Entrez le texte à corriger :");
+            Console.WriteLine("Texte à corriger :");
             string texte = Console.ReadLine();
-            await CorrigerTexte(api, texte);
-            Console.WriteLine(" Texte corrigé");
+            await OpenAiservice.Corriger(texte);
         }
-        else if (choix == 2)
+        else if (choix == "2")
         {
             Console.WriteLine("Entrez le texte à traduire :");
             string texte = Console.ReadLine();
@@ -36,40 +28,39 @@ class Program
             Console.WriteLine("3 - Allemand");
             Console.WriteLine("4 - Espagnol");
 
-            int langueChoix = int.Parse(Console.ReadLine());
+            string langue = "";
 
-            switch (langue)
+            string choice = Console.ReadLine();
+            switch (choice)
             {
-                case 1:
+                case "1":
                     langue = "anglais britannique";
                     break;
-                case 2:
+                case "2":
                     langue = "anglais américain";
                     break;
-                case 3:
+                case "3":
                     langue = "allemand";
                     break;
-                case 4:
+                case "4":
                     langue = "espagnol";
                     break;
                 default:
                     Console.WriteLine("Langue non disponible");
                     return;
             }
-            Console.WriteLine($"Traduction en {langue}")
-            await TraduireTexte(api, texte, langue);
+
+            await OpenAiservice.Traduire(texte, langue);
         }
-        else if (choix == 3)
+        else if (choix == "3")
         {
-            Console.WriteLine("Décris ton fichier HTML :");
-            string monfichier = Console.ReadLine();
-            await GenererHTML(api, monfichier);
-            Console.WriteLine("Fichier HTML generer !");
+            Console.WriteLine("Description de la page HTML :");
+            string description = Console.ReadLine();
+            await OpenAiservice.GenererHtml(description);
         }
         else
         {
             Console.WriteLine("Choix invalide.");
         }
     }
-
-} 
+}
